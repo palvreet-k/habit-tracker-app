@@ -33,7 +33,20 @@ export async function setupDatabase() {
 // Get all habits
 export async function getHabits() {
   const db = await getDB();
-  return await db.getAllAsync('SELECT * FROM habits');
+
+  const today = new Date().toISOString().split('T')[0];
+
+  return await db.getAllAsync(`
+    SELECT 
+      habits.*,
+      EXISTS(
+        SELECT 1
+        FROM completions
+        WHERE completions.habitId = habits.id
+        AND completions.date = '${today}'
+      ) AS completed
+    FROM habits
+  `);
 }
 
 // Insert habit example (optional but useful)
@@ -46,16 +59,38 @@ export async function addHabit(habitname, duration, category) {
   );
 }
 
-// export async function deleteHabit(habitId) {
-//   const db = await getDB();
+export async function markHabitComplete(habitId) {
+  const db = await getDB();
 
-//   await db.runAsync(
-//     'DELETE FROM completions WHERE habitId = ?',
-//     [habitId]
-//   );
+  const today = new Date().toISOString().split('T')[0];
 
-//   await db.runAsync(
-//     'DELETE FROM habits WHERE id = ?',
-//     [habitId]
-//   );
-// }
+  await db.runAsync(
+    'INSERT INTO completions (habitId, date) VALUES (?, ?)',
+    [habitId, today]
+  );
+}
+
+export async function unmarkHabitComplete(habitId) {
+  const db = await getDB();
+
+  const today = new Date().toISOString().split('T')[0];
+
+  await db.runAsync(
+    'DELETE FROM completions WHERE habitId = ? AND date = ?',
+    [habitId, today]
+  );
+}
+
+export async function deleteHabit(habitId) {
+  const db = await getDB();
+
+  await db.runAsync(
+    'DELETE FROM completions WHERE habitId = ?',
+    [habitId]
+  );
+
+  await db.runAsync(
+    'DELETE FROM habits WHERE id = ?',
+    [habitId]
+  );
+}

@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList, View, Text, TouchableOpacity } from 'react-native';
-import { getHabits } from '../db/db'
+import { getHabits, deleteHabit , markHabitComplete, unmarkHabitComplete} from '../db/db'
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
@@ -7,13 +7,13 @@ import Checkbox from 'expo-checkbox';
 export default function HabitDetailsScreen() {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isChecked, setChecked] = useState(false);
 
   useEffect(() => {
     loadHabits();
   }, []);
 
   async function loadHabits() {
+    setLoading(true);
     try {
       const data = await getHabits();
       setHabits(data);
@@ -45,11 +45,23 @@ export default function HabitDetailsScreen() {
               <Text style={styles.cardDuration}>Streak:</Text>
               <Checkbox
                 style={styles.checkbox}
-                value={isChecked}
-                onValueChange={setChecked}
-                color={isChecked ? '#09691c' : undefined}
+                value={!!item.completed}
+                onValueChange={async (value) => {
+                  try {
+                    if (value) {
+                      await markHabitComplete(item.id);
+                    } else {
+                      await unmarkHabitComplete(item.id);
+                    }
+
+                    await loadHabits();
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
+                color={item.completed ? '#09691c' : undefined}
               />
-              <Text style={styles.paragraph}>{isChecked ? 'Completed Today' : 'Mark Done'}</Text>
+              <Text style={styles.paragraph}>{item.completed? 'Completed Today' : 'Mark Done'}</Text>
             </View>
             <TouchableOpacity>
               <Ionicons name="trash-outline" size={24} color="#a81714" />
