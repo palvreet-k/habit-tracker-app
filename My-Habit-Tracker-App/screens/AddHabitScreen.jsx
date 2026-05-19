@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Text, TextInput, StyleSheet, TouchableOpacity, Alert, Keyboard} from "react-native";
+import { Text, TextInput, StyleSheet, TouchableOpacity, Alert, Keyboard } from "react-native";
 import { useState, useEffect } from "react";
 import { Picker } from '@react-native-picker/picker';
-import db from '../db/db.js'
+import { addHabit } from '../db/db.js';
 
-export default function AddHabitScreen({navigation}) {
+export default function AddHabitScreen({ navigation }) {
     const [submitted, setSubmitted] = useState(false);
     const [form, setForm] = useState({
         habitname: '',
@@ -32,21 +32,37 @@ export default function AddHabitScreen({navigation}) {
             return;
         }
 
-        db.runSync(
-      'INSERT INTO habits (habitname, duration, category) VALUES (?, ?, ?)',
-      [form.habitname, form.duration, form.category]
-    );
+        try {
+            addHabit(
+                form.habitname,
+                Number(form.duration),
+                form.category
+            );
 
-        Keyboard.dismiss();
-        setSubmitted(true);
+            Keyboard.dismiss();
+            setSubmitted(true);
+            setForm({
+                habitname: '',
+                duration: '',
+                category: ''
+            });
+
+            Alert.alert('Success', 'Habit added!');
+
+        } catch (e) {
+            console.error(e);
+            Alert.alert('Error', 'Failed to add habit');
+        }
     };
 
     const handleReset = () => {
-    setForm({habitname: '',
-        duration: '',
-        category: ''});
-    setSubmitted(false);
-  };
+        setForm({
+            habitname: '',
+            duration: '',
+            category: ''
+        });
+        setSubmitted(false);
+    };
 
     return (
         <SafeAreaView style={styles.form}>
@@ -81,9 +97,9 @@ export default function AddHabitScreen({navigation}) {
             <TouchableOpacity onPress={handleReset} style={styles.button}>
                 <Text style={styles.buttonText}>Reset</Text>
             </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Saved Habits')} >
-                                <Text style={styles.buttonText}> See Saved Habits</Text>
-                            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Saved Habits')} >
+                <Text style={styles.buttonText}> See Saved Habits</Text>
+            </TouchableOpacity>
 
         </SafeAreaView>
 
@@ -91,7 +107,7 @@ export default function AddHabitScreen({navigation}) {
 };
 
 const styles = StyleSheet.create({
-    form:{
+    form: {
         backgroundColor: '#f4d6f6',
         flex: 1,
     },

@@ -16,8 +16,8 @@ export default function App() {
 
   // Set up SQLiteDB for 2 tables
   useEffect(() => {
-    setupDatabase
-  }, []);
+  setupDatabase();
+}, []);
 
   return (
       <NavigationContainer>

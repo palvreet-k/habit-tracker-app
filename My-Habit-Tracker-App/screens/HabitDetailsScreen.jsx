@@ -1,28 +1,77 @@
-import { StyleSheet, FlatList, View} from 'react-native';
-import db from '../db/db.js'
+import { StyleSheet, FlatList, View, Text, TouchableOpacity } from 'react-native';
+import { getHabits } from '../db/db'
+import { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import Checkbox from 'expo-checkbox';
 
-const habits =  db.getAllSync('SELECT * FROM habits');
-export default function HabitDetailsScreen(){
-    return(
-        <FlatList
+export default function HabitDetailsScreen() {
+  const [habits, setHabits] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isChecked, setChecked] = useState(false);
+
+  useEffect(() => {
+    loadHabits();
+  }, []);
+
+  async function loadHabits() {
+    try {
+      const data = await getHabits();
+      setHabits(data);
+    } catch (e) {
+      console.error('Failed to load habits:', e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <View >
+        <Text>Loading habits...</Text>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.container}>
+      <FlatList
         data={habits}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Text style={styles.cardSubject}>{item.habitname}</Text>
-            <Text style={styles.cardDuration}>{item.duration}</Text>
-            <Text style={styles.cardDuration}>{item.category}</Text>
+            <View>
+              <Text style={styles.cardHabit}>Habit: {item.habitname}</Text>
+              <Text style={styles.cardDuration}>Duration: {item.duration}</Text>
+              <Text style={styles.cardDuration}>Category: {item.category}</Text>
+              <Text style={styles.cardDuration}>Streak:</Text>
+              <Checkbox
+                style={styles.checkbox}
+                value={isChecked}
+                onValueChange={setChecked}
+                color={isChecked ? '#09691c' : undefined}
+              />
+              <Text style={styles.paragraph}>{isChecked ? 'Completed Today' : 'Mark Done'}</Text>
+            </View>
+            <TouchableOpacity>
+              <Ionicons name="trash-outline" size={24} color="#a81714" />
+            </TouchableOpacity>
           </View>
         )}
-        ListEmptyComponent={
-          <Text style={styles.empty}>No habitslogged yet</Text>
-        }
       />
-    )
+    </View>
+  )
 }
 const styles = StyleSheet.create({
-card: { backgroundColor: '#fff', padding: 14, borderRadius: 10, marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderLeftWidth: 4, borderLeftColor: '#4A90D9' },
-  cardSubject: { fontSize: 15, fontWeight: 'bold', color: '#1A1A2E' },
-  cardDuration: { fontSize: 13, color: '#666' },
+  container: { flex: 1, padding: 20, backgroundColor: '#f4d6f6' },
+  card: {
+    backgroundColor: '#fff', padding: 14, borderRadius: 10,
+    marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between',
+    alignItems: 'center', borderLeftWidth: 4, borderLeftColor: '#4A90D9',
+    backgroundColor: '#cbf1d7'
+  },
+  cardHabit: { fontSize: 20, fontWeight: 'bold', color: '#1A1A2E' },
+  cardDuration: { fontSize: 17, color: '#666' },
   empty: { textAlign: 'center', color: '#aaa', marginTop: 30, fontStyle: 'italic' },
-  });
+  checkbox: {
+    margin: 8,
+  },
+});
