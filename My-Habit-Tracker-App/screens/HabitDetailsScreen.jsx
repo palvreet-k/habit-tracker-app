@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 
-const HERO_URI = 'https://images.unsplash.com/photo-1669299033175-09d02a0031f1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBiYWNrZ3JvdW5kJTIwcGluayUyMHdpdGglMjBib29rc3xlbnwwfHwwfHx8MA%3D%3D'
+const HERO_URI = 'https://media.istockphoto.com/id/1255755152/photo/flower-pattern-of-wildflowers-composition-of-flowers-and-plants-top-view-floral-abstract.webp?a=1&b=1&s=612x612&w=0&k=20&c=j4CeoUyGyhq6B0h1MD84IqMG4hcru6ePNvjiHAGX2Jk='
 
 //Display Saved Habits, Mark Habit as Completed, Delete Habit
 

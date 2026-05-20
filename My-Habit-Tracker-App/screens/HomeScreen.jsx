@@ -2,7 +2,7 @@ import { TouchableOpacity, StyleSheet, Text, ImageBackground } from "react-nativ
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const HERO_URI = 'https://images.unsplash.com/photo-1669299033175-09d02a0031f1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBiYWNrZ3JvdW5kJTIwcGluayUyMHdpdGglMjBib29rc3xlbnwwfHwwfHx8MA%3D%3D'
+const HERO_URI = 'https://images.unsplash.com/photo-1515191107209-c28698631303?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGhvcGV8ZW58MHx8MHx8fDA%3D'
 
 export default function HomeScreen({ navigation }) {
     return (
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 30,
         fontWeight: '600',
-        color: '#0e4705',
+        color: '#c80a0a',
         textAlign: 'center',
         marginTop: 8,
         marginBottom: 40,

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Picker } from '@react-native-picker/picker';
 import { addHabit } from '../db/db.js';
 
-const HERO_URI = 'https://images.unsplash.com/photo-1669299033175-09d02a0031f1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBiYWNrZ3JvdW5kJTIwcGluayUyMHdpdGglMjBib29rc3xlbnwwfHwwfHx8MA%3D%3D'
+const HERO_URI = 'https://images.unsplash.com/photo-1594022688886-dc29f495cf65?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGlnaHQlMjB5ZWxsb3clMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww'
 
 // Add New Habit Form
 export default function AddHabitScreen({ navigation }) {

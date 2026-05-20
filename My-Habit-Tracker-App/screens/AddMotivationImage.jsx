@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, ScrollView, StyleSheet, Image, ImageBackground 
 
 import * as ImagePicker from 'expo-image-picker';
 
-const HERO_URI = 'https://plus.unsplash.com/premium_photo-1756125730091-0806afcf2e8d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGhvdG9zJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D'
+const HERO_URI = 'https://images.unsplash.com/photo-1615976909545-a2d402c7dac3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGluayUyMHdpdGh8ZW58MHx8MHx8fDA%3D'
 
 // Add Photos for Daily Motivation Through Camera
 
