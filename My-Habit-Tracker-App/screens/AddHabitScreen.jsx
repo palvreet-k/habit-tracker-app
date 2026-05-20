@@ -1,9 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Text, TextInput, StyleSheet, TouchableOpacity, Alert, Keyboard } from "react-native";
+import { Text, TextInput, StyleSheet, TouchableOpacity, Alert, Keyboard, View, ImageBackground } from "react-native";
 import { useState, useEffect } from "react";
 import { Picker } from '@react-native-picker/picker';
 import { addHabit } from '../db/db.js';
 
+const HERO_URI = 'https://images.unsplash.com/photo-1669299033175-09d02a0031f1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBiYWNrZ3JvdW5kJTIwcGluayUyMHdpdGglMjBib29rc3xlbnwwfHwwfHx8MA%3D%3D'
+
+// Add New Habit Form
 export default function AddHabitScreen({ navigation }) {
     const [submitted, setSubmitted] = useState(false);
     const [form, setForm] = useState({
@@ -16,6 +19,7 @@ export default function AddHabitScreen({ navigation }) {
         setForm({ ...form, [field]: value })
     }
 
+    // Handle Submit on "Add Habit" button
     const handleSubmit = () => {
         if (!form.habitname.trim()) {
             Alert.alert('Name Error', 'Name cannot be empty!');
@@ -65,53 +69,61 @@ export default function AddHabitScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={styles.form}>
-            <Text style={styles.subtitle}>Add a new Habit Below</Text>
-            <TextInput
-                style={styles.input}
-                value={form.habitname}
-                placeholder="Enter a habit name"
-                onChangeText={(val) => handleChange('habitname', val)}
-            />
-            <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={form.duration}
-                onChangeText={(val) => handleChange('duration', val)}
-                placeholder="Duration per day"
-            />
-            <Picker
-                selectedValue={form.category}
-                onValueChange={(itemValue) =>
-                    handleChange('category', itemValue)
-                }
-                selectionColor={'red'}
-            >
-                <Picker.Item label="Select a category" value="" />
-                <Picker.Item label="Health" value="health" />
-                <Picker.Item label="Learning" value="learning" />
-            </Picker>
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Add Habit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleReset} style={styles.button}>
-                <Text style={styles.buttonText}>Reset</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Saved Habits')} >
-                <Text style={styles.buttonText}> See Saved Habits</Text>
-            </TouchableOpacity>
+        <ImageBackground
+            source={{ uri: HERO_URI }}
+            style={styles.hero}
+            imageStyle={{ resizeMode: 'cover' }}
+        >
+            <SafeAreaView style={styles.form}>
+                <Text style={styles.subtitle}>Add a new Habit Below</Text>
+                <TextInput
+                    style={styles.input}
+                    value={form.habitname}
+                    placeholder="Enter a habit name"
+                    onChangeText={(val) => handleChange('habitname', val)}
+                />
+                <TextInput
+                    style={styles.input}
+                    keyboardType="numeric"
+                    value={form.duration}
+                    onChangeText={(val) => handleChange('duration', val)}
+                    placeholder="Duration per day"
+                />
+                <View style={styles.pickerBox}>
+                    <Picker
+                        selectedValue={form.category}
+                        onValueChange={(itemValue) =>
+                            handleChange('category', itemValue)
+                        }
+                        selectionColor={'red'}
+                    >
+                        <Picker.Item label="Select a category" value="" />
+                        <Picker.Item label="Health" value="health" />
+                        <Picker.Item label="Learning" value="learning" />
+                    </Picker>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.buttonText}>Add Habit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleReset} style={styles.button}>
+                    <Text style={styles.buttonText}>Reset</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Saved Habits')} >
+                    <Text style={styles.buttonText}> See Saved Habits</Text>
+                </TouchableOpacity>
 
-        </SafeAreaView>
-
+            </SafeAreaView>
+        </ImageBackground>
     )
 };
 
 const styles = StyleSheet.create({
     form: {
-        backgroundColor: '#f4d6f6',
         flex: 1,
+        alignSelf: 'stretch',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-
     input: {
         height: 40,
         margin: 12,
@@ -121,27 +133,45 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 15,
         backgroundColor: '#fff',
+        width: '85%',
     },
     subtitle: {
         fontSize: 30,
         fontWeight: '600',
-        color: '#4a90d9',
+        color: '#0b3665',
         textAlign: 'center',
         marginTop: 8,
         marginBottom: 40,
     },
     button: {
-        backgroundColor: '#4a90d9',
+        backgroundColor: '#093769',
         paddingVertical: 14,
         paddingHorizontal: 48,
         borderRadius: 30,
         marginBottom: 16,
-        width: '100%',
+        width: '85%',
         alignItems: 'center',
     },
     buttonText: {
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    pickerBox: {
+        margin: 12,
+        borderWidth: 1,
+        borderColor: '#0f0303',
+        borderRadius: 8,
+        backgroundColor: '#fff',
+        width: '85%',
+        minHeight: 48,
+        justifyContent: 'center',
+    },
+    hero: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
