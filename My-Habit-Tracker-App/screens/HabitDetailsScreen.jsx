@@ -108,7 +108,7 @@ export default function HabitDetailsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   card: {
-    backgroundColor: '#9cd6e4',
+    backgroundColor: '#cbe6ec',
     padding: 14,
     borderRadius: 10,
     marginBottom: 10,

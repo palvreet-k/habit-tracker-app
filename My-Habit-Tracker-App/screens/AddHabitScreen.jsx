@@ -89,7 +89,7 @@ export default function AddHabitScreen({ navigation }) {
                     onChangeText={(val) => handleChange('duration', val)}
                     placeholder="Duration in minutes per day"
                 />
-                <View style={styles.pickerBox}>
+                <View style={styles.pickerBox} onTouchStart={() => Keyboard.dismiss()}>
                     <Picker
                         selectedValue={form.category}
                         onValueChange={(itemValue) =>
