@@ -87,7 +87,7 @@ export default function AddHabitScreen({ navigation }) {
                     keyboardType="numeric"
                     value={form.duration}
                     onChangeText={(val) => handleChange('duration', val)}
-                    placeholder="Duration per day"
+                    placeholder="Duration in minutes per day"
                 />
                 <View style={styles.pickerBox}>
                     <Picker

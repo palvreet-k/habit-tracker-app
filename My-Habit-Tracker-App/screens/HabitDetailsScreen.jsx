@@ -56,7 +56,7 @@ export default function HabitDetailsScreen() {
             <View style={styles.card}>
               <View>
                 <Text style={styles.cardHabit}>Habit: {item.habitname}</Text>
-                <Text style={styles.cardDuration}>Duration: {item.duration}</Text>
+                <Text style={styles.cardDuration}>Duration: {item.duration} minutes</Text>
                 <Text style={styles.cardDuration}>Category: {item.category}</Text>
                 <Text style={styles.cardDuration}>Completed: {item.totalCompleted || 0} days</Text>
                 <Checkbox
@@ -108,7 +108,7 @@ export default function HabitDetailsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   card: {
-    backgroundColor: '#bed48c',
+    backgroundColor: '#9cd6e4',
     padding: 14,
     borderRadius: 10,
     marginBottom: 10,
