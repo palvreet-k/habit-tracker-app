@@ -36,7 +36,7 @@ export async function getHabits() {
 
   const today = new Date().toISOString().split('T')[0];
 
-  return await db.getAllAsync(`
+  const habits = await db.getAllAsync(`
     SELECT 
       habits.*,
       EXISTS(
@@ -47,6 +47,12 @@ export async function getHabits() {
       ) AS completed
     FROM habits
   `);
+
+  for (let habit of habits) {
+    habit.totalCompleted = await getCompletionCount(habit.id);
+  }
+
+  return habits;
 }
 
 // Insert habit example (optional but useful)
@@ -93,4 +99,17 @@ export async function deleteHabit(habitId) {
     'DELETE FROM habits WHERE id = ?',
     [habitId]
   );
+}
+
+export async function getCompletionCount(habitId) {
+  const db = await getDB();
+
+  const result = await db.getFirstAsync(
+    `SELECT COUNT(*) as count
+     FROM completions
+     WHERE habitId = ?`,
+    [habitId]
+  );
+
+  return result.count;
 }
